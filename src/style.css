@@ -1,0 +1,1245 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Caveat:wght@500;700&display=swap');
+
+/* ==========================================
+   RESET & GLOBAL STYLES (DREAMY PINK THEME)
+========================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #140510;
+  background-image: 
+    radial-gradient(circle at 18% 20%, rgba(255, 107, 157, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 82% 75%, rgba(255, 143, 171, 0.20) 0%, transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(247, 37, 133, 0.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 15%, #461334 0%, #2b0b21 45%, #180513 85%, #0f030c 100%);
+  background-attachment: fixed;
+  color: #fff0f3;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Soft Pink Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(20, 5, 16, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 143, 171, 0.35);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 143, 171, 0.65);
+}
+
+/* ==========================================
+   THREE.JS BACKGROUND CANVAS
+========================================== */
+
+.three-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================
+   UNIVERSAL BUTTONS (ROSE GLASSMORPHISM)
+========================================== */
+
+button {
+  appearance: none;
+  outline: none;
+  border: 1px solid rgba(255, 182, 193, 0.45);
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.25) 0%, rgba(255, 77, 109, 0.15) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  padding: 13px 36px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 22px rgba(255, 77, 109, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #ffe5ec 50%, #ff8fab 100%);
+  color: #4a0e2e;
+  border-color: #ffffff;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 35px rgba(255, 107, 157, 0.55), 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.secondary-button {
+  background: rgba(255, 143, 171, 0.1);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+  color: #ffe5ec;
+  padding: 10px 24px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+.secondary-button:hover {
+  background: rgba(255, 143, 171, 0.25);
+  color: #ffffff;
+  border-color: #ffccd5;
+}
+
+/* ==========================================
+   SHARED CHAPTER SECTION CONTAINER
+========================================== */
+
+.chapter-section {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 50px 24px 115px 24px;
+  background: rgba(20, 5, 16, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center;
+  opacity: 0;
+}
+
+.chapter-section.active {
+  display: flex;
+}
+
+.chapter-inner {
+  max-width: 820px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.chapter-label {
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: #ffb3c6;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 0 12px rgba(255, 117, 143, 0.35);
+}
+
+.chapter-label::before,
+.chapter-label::after {
+  content: "•";
+  color: #ff758f;
+}
+
+h2 {
+  font-size: clamp(32px, 5.5vw, 56px);
+  font-weight: 300;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.5px;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+  background: linear-gradient(180deg, #ffffff 0%, #ffe5ec 50%, #ff8fab 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 6px 25px rgba(255, 107, 157, 0.2);
+}
+
+.chapter-desc {
+  font-size: 15px;
+  color: rgba(255, 240, 243, 0.85);
+  line-height: 1.8;
+  margin: 0 auto 32px auto;
+  max-width: 540px;
+  font-weight: 400;
+}
+
+/* ==========================================
+   SCENE 1: HERO / OPENING
+========================================== */
+
+.hero {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 24px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.subtitle {
+  font-size: 12px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #ffb3c6;
+  margin-bottom: 20px;
+  font-weight: 500;
+  text-shadow: 0 0 12px rgba(255, 117, 143, 0.4);
+}
+
+h1 {
+  font-size: clamp(42px, 8vw, 82px);
+  font-weight: 300;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -1.5px;
+  margin: 0 0 20px 0;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 0%, #ffe5ec 45%, #ff8fab 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 30px rgba(255, 107, 157, 0.3));
+}
+
+.description {
+  font-size: 16px;
+  color: rgba(255, 240, 243, 0.88);
+  max-width: 480px;
+  margin: 0 0 40px 0;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* ==========================================
+   SCENE 2: CHAPTER 02 (OUR BEGINNING - LEBIH RAMAI)
+========================================== */
+
+.memory-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Orbit background rings with dreamy rose glow */
+.memory-section::before,
+.memory-section::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border: 1px dashed rgba(255, 143, 171, 0.28);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 30px rgba(255, 107, 157, 0.08);
+}
+
+.memory-section::before {
+  top: 10%;
+  left: -120px;
+  animation: orbitFloat 22s linear infinite;
+}
+
+.memory-section::after {
+  right: -120px;
+  bottom: 5%;
+  animation: orbitFloat 28s linear infinite reverse;
+}
+
+@keyframes orbitFloat {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.cosmic-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+  margin: 10px 0 36px 0;
+}
+
+.cosmic-card {
+  background: rgba(255, 143, 171, 0.07);
+  border: 1px solid rgba(255, 182, 193, 0.22);
+  border-radius: 18px;
+  padding: 22px 18px;
+  text-align: left;
+  backdrop-filter: blur(8px);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cosmic-card:hover {
+  background: rgba(255, 143, 171, 0.14);
+  border-color: rgba(255, 182, 193, 0.55);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(255, 77, 109, 0.25);
+}
+
+.cosmic-card-icon {
+  font-size: 20px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.cosmic-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #ffccd5;
+  margin-bottom: 6px;
+}
+
+.cosmic-card-desc {
+  font-size: 13px;
+  color: rgba(255, 240, 243, 0.78);
+  line-height: 1.5;
+}
+
+.quote-highlight-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: 40px;
+  background: rgba(255, 107, 157, 0.12);
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  font-size: 13px;
+  font-style: italic;
+  color: #ffe5ec;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(255, 107, 157, 0.15);
+}
+
+/* ==========================================
+   SCENE 3: CHAPTER 03 (FIRST CHAT THROWBACK)
+========================================== */
+
+.chat-polaroid-frame {
+  position: relative;
+  width: min(100%, 360px);
+  margin: 10px auto 26px auto;
+  padding: 14px 14px 28px 14px;
+  background: rgba(255, 182, 193, 0.08);
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 107, 157, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.chat-polaroid-frame:hover {
+  transform: translateY(-5px) rotate(-1deg) scale(1.02);
+  box-shadow: 0 30px 70px rgba(255, 107, 157, 0.3);
+}
+
+.tape-sticker {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 182, 193, 0.35);
+  backdrop-filter: blur(8px);
+  padding: 4px 18px;
+  border-radius: 4px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: 1px dashed rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 10px rgba(255, 77, 109, 0.25);
+}
+
+.chat-photo-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  max-height: 480px;
+}
+
+.chat-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.chat-polaroid-frame:hover .chat-photo {
+  transform: scale(1.04);
+}
+
+.chat-polaroid-caption {
+  margin-top: 14px;
+  font-family: 'Caveat', cursive;
+  font-size: 21px;
+  color: #ffccd5;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================
+   SCENE 4: CHAPTER 04 (LITTLE MOMENTS GALLERY)
+========================================== */
+
+.moments-slider-container {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto 28px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.polaroid-card {
+  width: min(100%, 390px);
+  background: #fff8fa;
+  color: #2b0b21;
+  padding: 16px 16px 26px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 182, 193, 0.45);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(255, 107, 157, 0.22);
+  transform: rotate(-1.5deg);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+  position: relative;
+}
+
+.polaroid-card:hover {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 30px 70px rgba(255, 107, 157, 0.35);
+}
+
+.polaroid-img-wrap {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fce7ec;
+  margin-bottom: 16px;
+}
+
+.polaroid-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.polaroid-card:hover .polaroid-img {
+  transform: scale(1.05);
+}
+
+.polaroid-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ff4d6d;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.polaroid-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  color: #2b0b21;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.polaroid-story {
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  color: #592544;
+  line-height: 1.35;
+}
+
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.gallery-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 16px;
+}
+
+.gallery-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 182, 193, 0.35);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gallery-dot.active {
+  background: linear-gradient(135deg, #ffffff, #ff758f);
+  width: 22px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 117, 143, 0.6);
+}
+
+/* ==========================================
+   SCENE 5: CHAPTER 05 (OUR SOUNDTRACK ROOM)
+========================================== */
+
+.soundtrack-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 30px auto;
+}
+
+.vinyl-deck-container {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin-bottom: 30px;
+}
+
+.vinyl-disc {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #331227 0%, #200a19 40%, #150611 70%, #0a0208 100%);
+  border: 4px solid #4a1537;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 107, 157, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.5s ease;
+}
+
+.vinyl-disc.spinning {
+  animation: spinVinyl 6s linear infinite;
+}
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.vinyl-grooves {
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 182, 193, 0.14);
+  pointer-events: none;
+}
+
+.vinyl-grooves::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 182, 193, 0.1);
+}
+
+.vinyl-grooves::after {
+  content: "";
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 182, 193, 0.08);
+}
+
+.vinyl-center-label {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff758f, #c9184a);
+  border: 3px solid #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 4px 18px rgba(255, 77, 109, 0.6);
+  text-align: center;
+}
+
+.vinyl-center-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+.vinyl-center-sub {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #ffe5ec;
+}
+
+.playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.track-card {
+  background: rgba(255, 143, 171, 0.06);
+  border: 1px solid rgba(255, 182, 193, 0.22);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: left;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+
+.track-card:hover {
+  background: rgba(255, 143, 171, 0.14);
+  border-color: rgba(255, 182, 193, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 77, 109, 0.2);
+}
+
+.track-card.active-track {
+  background: rgba(255, 107, 157, 0.18);
+  border-color: #ff758f;
+  box-shadow: 0 8px 25px rgba(255, 117, 143, 0.35);
+}
+
+.track-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.track-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.track-card-artist {
+  font-size: 11px;
+  color: #ffb3c6;
+}
+
+.track-card-story {
+  font-size: 12px;
+  color: rgba(255, 240, 243, 0.8);
+  line-height: 1.5;
+}
+
+.track-card-badge {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff758f, #ff4d6d);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 77, 109, 0.3);
+}
+
+/* ==========================================
+   SCENE 6: CHAPTER 06 (CHAOS DUO / INSIDE JOKES)
+========================================== */
+
+.quiz-container {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto 30px auto;
+  background: rgba(255, 143, 171, 0.07);
+  border: 1px solid rgba(255, 182, 193, 0.25);
+  border-radius: 22px;
+  padding: 26px 22px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 107, 157, 0.12);
+}
+
+.quiz-step {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.quiz-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.quiz-q-num {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffb3c6;
+  margin-bottom: 8px;
+}
+
+.quiz-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 20px;
+  line-height: 1.35;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-option-btn {
+  background: rgba(255, 143, 171, 0.08);
+  border: 1px solid rgba(255, 182, 193, 0.25);
+  border-radius: 14px;
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: #fff0f3;
+  justify-content: flex-start;
+  transition: all 0.25s ease;
+}
+
+.quiz-option-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 117, 143, 0.35), rgba(255, 77, 109, 0.2));
+  border-color: #ffccd5;
+  color: #ffffff;
+  transform: translateX(4px);
+  box-shadow: 0 4px 18px rgba(255, 107, 157, 0.35);
+}
+
+.quiz-result-box {
+  display: none;
+  text-align: center;
+  padding: 15px;
+}
+
+.quiz-result-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff758f, #ff4d6d);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+}
+
+.quiz-result-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg, #ffffff 0%, #ffccd5 60%, #ff8fab 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.quiz-result-text {
+  font-size: 14px;
+  color: rgba(255, 240, 243, 0.85);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.inside-jokes-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-width: 600px;
+  margin-top: 18px;
+}
+
+.joke-pill {
+  padding: 8px 16px;
+  border-radius: 30px;
+  background: rgba(255, 107, 157, 0.12);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+  font-size: 12px;
+  color: #ffe5ec;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================
+   SCENE 7: CHAPTER 07 (A LETTER FOR YOU)
+========================================== */
+
+.envelope-wrapper {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto 30px auto;
+  perspective: 1000px;
+}
+
+.envelope-card {
+  position: relative;
+  background: rgba(255, 143, 171, 0.1);
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  border-radius: 22px;
+  padding: 30px 24px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 107, 157, 0.2);
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.envelope-card:hover {
+  border-color: rgba(255, 182, 193, 0.65);
+  transform: translateY(-3px);
+  box-shadow: 0 30px 70px rgba(255, 107, 157, 0.35);
+}
+
+.envelope-preview-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.envelope-icon {
+  font-size: 46px;
+  filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.5));
+}
+
+.wax-seal-btn {
+  background: linear-gradient(135deg, #ff4d6d, #c9184a);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 12px 28px;
+  font-size: 12px;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(255, 77, 109, 0.5);
+}
+
+.letter-sheet {
+  display: none;
+  background: #fffbfa;
+  color: #2b0b21;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(255, 143, 171, 0.25);
+  text-align: left;
+  line-height: 1.8;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 182, 193, 0.5);
+}
+
+.letter-sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #ff758f, #ffe5ec, #ff758f);
+}
+
+.letter-salutation {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #4a0e2e;
+}
+
+.letter-body {
+  font-size: 15px;
+  color: #3b182b;
+  margin-bottom: 20px;
+  line-height: 1.85;
+}
+
+.letter-body p {
+  margin-bottom: 14px;
+}
+
+.letter-closing {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: #4a0e2e;
+  text-align: right;
+  margin-top: 24px;
+}
+
+/* ==========================================
+   SCENE 8: CHAPTER 08 (OUR STORY CONTINUES)
+========================================== */
+
+.final-universe-card {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 30px auto;
+  background: rgba(255, 143, 171, 0.08);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+  border-radius: 24px;
+  padding: 38px 28px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65), 0 0 40px rgba(255, 107, 157, 0.25);
+  position: relative;
+}
+
+.floating-thumbnails-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 22px 0 28px 0;
+  flex-wrap: wrap;
+}
+
+.thumb-mini {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 182, 193, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 107, 157, 0.3);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.thumb-mini:nth-child(1) { transform: rotate(-4deg); }
+.thumb-mini:nth-child(2) { transform: rotate(3deg); }
+.thumb-mini:nth-child(3) { transform: rotate(-2deg); }
+.thumb-mini:nth-child(4) { transform: rotate(4deg); }
+
+.thumb-mini:hover {
+  transform: scale(1.18) rotate(0deg);
+  border-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(255, 107, 157, 0.6);
+  z-index: 5;
+}
+
+.final-message {
+  font-size: 16px;
+  color: rgba(255, 240, 243, 0.9);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto 28px auto;
+}
+
+.final-signature {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffb3c6;
+  margin-bottom: 24px;
+}
+
+/* ==========================================
+   MUSIC PLAYER (FIXED BOTTOM LEFT - ROSE PILL)
+========================================== */
+
+.music-player {
+  position: fixed;
+  bottom: 26px;
+  left: 26px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  background: rgba(34, 10, 26, 0.88);
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  border-radius: 50px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 107, 157, 0.2);
+  transition: all 0.3s ease;
+}
+
+.music-player:hover {
+  border-color: rgba(255, 182, 193, 0.65);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(255, 77, 109, 0.35);
+}
+
+#musicToggle {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 182, 193, 0.5);
+  border-radius: 50%;
+  background: rgba(255, 107, 157, 0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+#musicToggle:hover {
+  background: linear-gradient(135deg, #ffffff, #ffb3c6);
+  color: #4a0e2e;
+}
+
+.music-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.music-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #ffccd5;
+}
+
+.music-artist {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: rgba(255, 240, 243, 0.7);
+}
+
+.music-bars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  margin-left: 2px;
+}
+
+.music-bars span {
+  width: 3px;
+  height: 4px;
+  background: linear-gradient(to top, #ff758f, #ffccd5);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(255, 117, 143, 0.8);
+  transition: height 0.2s ease;
+}
+
+.music-player.playing .music-bars span {
+  animation: musicWave 0.7s ease-in-out infinite alternate;
+}
+
+.music-bars span:nth-child(1) { animation-delay: 0.1s; }
+.music-bars span:nth-child(2) { animation-delay: 0.3s; }
+.music-bars span:nth-child(3) { animation-delay: 0.5s; }
+.music-bars span:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes musicWave {
+  from { height: 4px; }
+  to { height: 18px; }
+}
+
+/* ==========================================
+   CHAPTER NAVIGATION (FIXED BOTTOM CENTER)
+========================================== */
+
+.chapter-navigation {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 900;
+  color: #ffccd5;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.nav-button {
+  padding: 11px 22px;
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  border-radius: 30px;
+  background: rgba(34, 10, 26, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: white;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 107, 157, 0.15);
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: linear-gradient(135deg, rgba(255, 117, 143, 0.45), rgba(255, 77, 109, 0.3));
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  color: #ffffff;
+  box-shadow: 0 6px 25px rgba(255, 107, 157, 0.5);
+}
+
+#chapterCounter {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: #ffb3c6;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(255, 117, 143, 0.4);
+}
+
+/* ==========================================
+   TRANSITION OVERLAY
+========================================== */
+
+.transition {
+  position: fixed;
+  inset: 0;
+  background: #10030c;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ==========================================
+   MOBILE & RESPONSIVE ADJUSTMENTS
+========================================== */
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 20px 10px;
+  }
+
+  h1 {
+    font-size: 38px;
+    letter-spacing: -0.5px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .chapter-section {
+    padding: 30px 16px 135px 16px;
+  }
+
+  .chapter-desc {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .polaroid-img-wrap {
+    height: 250px;
+  }
+
+  .polaroid-card {
+    width: 100%;
+  }
+
+  .letter-sheet {
+    padding: 24px 20px;
+  }
+
+  .letter-salutation {
+    font-size: 20px;
+  }
+
+  .letter-body {
+    font-size: 14px;
+  }
+
+  .music-player {
+    bottom: 16px;
+    left: 12px;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  #musicToggle {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+
+  .music-title {
+    font-size: 10px;
+  }
+
+  .music-artist {
+    font-size: 8px;
+  }
+
+  .chapter-navigation {
+    bottom: 74px;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .nav-button {
+    padding: 9px 15px;
+    font-size: 10px;
+  }
+
+  #chapterCounter {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+}
